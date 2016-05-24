@@ -1,0 +1,9 @@
+pkg/
+src/
+developer-key
+seed-file
+downloaded
+*.mkv
+*.mp4
+*.webm
+*.part
