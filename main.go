@@ -14,7 +14,7 @@ import (
 )
 
 var (
-	seedFileName = flag.String("seed", "", "List of video id's and query strings (prefixed with ^) to generate contents from")
+	seedFileName = flag.String("seed-file", "", "List of video id's and query strings (prefixed with ^) to generate contents from")
 	developerKey = flag.String("developer-key", "", "Google API developer key")
         maxResults = flag.Int64("max-results", 50, "Max YouTube results")
 	safeSearch = flag.String("safe-search", "none", "Set safe search (none (default), moderate, strict)")
