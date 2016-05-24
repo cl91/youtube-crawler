@@ -18,8 +18,8 @@ var (
 	developerKey = flag.String("developer-key", "", "Google API developer key")
         maxResults = flag.Int64("max-results", 50, "Max YouTube results")
 	safeSearch = flag.String("safe-search", "none", "Set safe search (none (default), moderate, strict)")
-	showChannels = flag.Bool("show-channels", false, "Show YouTube channels as well (need --verbose)")
-	showPlaylists = flag.Bool("show-playlists", false, "Show YouTube playlists as well (need --verbose)")
+	showChannels = flag.Bool("show-channels", false, "Show YouTube channels as well")
+	showPlaylists = flag.Bool("show-playlists", false, "Show YouTube playlists as well")
 	verbose = flag.Bool("verbose", false, "Enable verbose output")
 )
 
@@ -83,16 +83,12 @@ func main() {
 			}
 		}
 
-		if *verbose {
-			printIDs("Videos", videos)
-			if *showChannels {
-				printIDs("Channels", channels)
-			}
-			if *showPlaylists {
-				printIDs("Playlists", playlists)
-			}
-		} else {
-			printLinks("Videos", videos)
+		printIDs("Videos", videos, *verbose)
+		if *showChannels {
+			printIDs("Channels", channels, *verbose)
+		}
+		if *showPlaylists {
+			printIDs("Playlists", playlists, *verbose)
 		}
 	}
 }
@@ -101,17 +97,18 @@ func main() {
 // identifies the list. For example, print the word section name "Videos"
 // above a list of video search results, followed by the video ID and title
 // of each matching video.
-func printIDs(sectionName string, matches map[string]string) {
-        fmt.Printf("%v:\n", sectionName)
+func printIDs(sectionName string, matches map[string]string, verbose bool) {
+	if verbose {
+		fmt.Printf("%v:\n", sectionName)
+	}
         for id, title := range matches {
-                fmt.Printf("[%v] %v\n", id, title)
+		if verbose {
+			fmt.Printf("[%v] %v\n", id, title)
+		} else {
+			fmt.Printf("%v\n", id)
+		}
         }
-        fmt.Printf("\n\n")
-}
-
-// Print the link of each result in a list
-func printLinks(sectionName string, matches map[string]string) {
-        for id, _ := range matches {
-                fmt.Printf("https://youtube.com/watch?v=%v\n", id)
-        }
+	if verbose {
+		fmt.Printf("\n\n")
+	}
 }
